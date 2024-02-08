@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocaleader = " "
 
 -- Remove highlight search
-vim.keymap.set("n", "<leader>h", ":noh<cr>", { desc = "no highlight search", silent = true })
+vim.keymap.set("n", "<leader>nh", ":noh<cr>", { desc = "no highlight search", silent = true })
 
 -- Window navigation
 vim.keymap.set("n", "<C-h>", "<c-w>h")

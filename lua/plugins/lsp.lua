@@ -17,6 +17,7 @@ return {
 					"cssls",
 					"html",
 					"tailwindcss",
+					"pyright",
 				},
 			})
 		end,
@@ -24,9 +25,23 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
+			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({})
-			lspconfig.tsserver.setup({})
+			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.tsserver.setup({
+				capabilities = capabilities
+			})
+			lspconfig.gopls.setup({
+				capabilities = capabilities
+			})
+			lspconfig.pyright.setup({
+				capabilities = capabilities
+			})
+			lspconfig.rust_analyzer.setup({
+				capabilities = capabilities
+			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -39,6 +54,7 @@ return {
 						vim.lsp.buf.format({ async = true })
 					end, opts)
 					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+					vim.keymap.set({ "n", "v" }, "<leader>rn", vim.lsp.buf.rename, opts)
 				end,
 			})
 		end,
@@ -53,6 +69,7 @@ return {
 					null_ls.builtins.formatting.gofmt,
 					null_ls.builtins.formatting.goimports,
 					null_ls.builtins.formatting.prettier,
+					null_ls.builtins.formatting.black,
 					null_ls.builtins.diagnostics.eslint_d,
 					null_ls.builtins.diagnostics.golangci_lint,
 				},
