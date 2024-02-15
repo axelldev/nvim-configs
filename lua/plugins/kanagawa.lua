@@ -3,6 +3,7 @@ return {
 	config = function()
 		require("kanagawa").setup({
 			transparent = true,
+			keywordStyle = { italic = false },
 			colors = {
 				theme = {
 					all = {
