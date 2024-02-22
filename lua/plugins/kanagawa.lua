@@ -8,12 +8,11 @@ return {
 				theme = {
 					all = {
 						ui = {
-							bg_gutter = "none"
-						}
-					}
-				}
-			}
+							bg_gutter = "none",
+						},
+					},
+				},
+			},
 		})
-		vim.cmd("colorscheme kanagawa")
 	end,
 }

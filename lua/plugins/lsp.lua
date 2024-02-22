@@ -25,22 +25,22 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
 			lspconfig.tsserver.setup({
-				capabilities = capabilities
+				capabilities = capabilities,
 			})
 			lspconfig.gopls.setup({
-				capabilities = capabilities
+				capabilities = capabilities,
 			})
 			lspconfig.pyright.setup({
-				capabilities = capabilities
+				capabilities = capabilities,
 			})
 			lspconfig.rust_analyzer.setup({
-				capabilities = capabilities
+				capabilities = capabilities,
 			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -63,6 +63,7 @@ return {
 		"nvimtools/none-ls.nvim",
 		config = function()
 			local null_ls = require("null-ls")
+			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua,
@@ -72,7 +73,20 @@ return {
 					null_ls.builtins.formatting.black,
 					null_ls.builtins.diagnostics.eslint_d,
 					null_ls.builtins.diagnostics.golangci_lint,
+					null_ls.builtins.diagnostics.pylint,
 				},
+				on_attach = function(client, bufnr)
+					if client.supports_method("textDocument/formatting") then
+						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = augroup,
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ sync = true })
+							end,
+						})
+					end
+				end,
 			})
 		end,
 	},
