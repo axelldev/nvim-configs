@@ -1,12 +1,17 @@
 return {
 	{
-		"EdenEast/nightfox.nvim",
+		"kanagawa.nvim",
 		config = function()
-			require("nightfox").setup({
-				options = {
-					transparent = true,
+			require("kanagawa").setup({
+				transparent = true,
+				keywordStyle = { italic = false },
+				theme = "wave",
+				background = {
+					dark = "dragon",
+					light = "lotus",
 				},
 			})
+			vim.cmd("colorscheme kanagawa")
 		end,
 	},
 	{
@@ -18,7 +23,6 @@ return {
 				transparent_background = true,
 				no_italic = true,
 			})
-			vim.cmd("colorscheme catppuccin")
 		end,
 	},
 }
